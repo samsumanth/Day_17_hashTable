@@ -1,0 +1,104 @@
+class Node
+{
+	public String data;
+	public Node next;
+	public Node previous;
+	
+	public Node(String data)
+	{
+		this.data = data;
+		this.next = null;
+		this.previous = null;
+	}
+}
+
+public class HashTableWithHashvalue 
+{
+	Node[] hashTable;
+	
+	public HashTableWithHashvalue(int position)
+	{
+		hashTable = new Node[position];
+	}
+	
+	public int Hash(String value)
+	{
+		int hashPosition = value.hashCode();
+		
+		hashPosition = hashPosition % hashTable.length;
+		
+		if (hashPosition < 0)
+		{
+			hashPosition = hashPosition + hashTable.length;
+		}
+		
+		System.out.println("Hash value for :" + value + "is :" +hashPosition);
+		return hashPosition;
+	}
+	
+	public void insert(String value)
+	{
+		int position = Hash(value);
+		
+		Node node = new Node(value);
+		Node start = hashTable[position];
+		
+		if (hashTable[position]  == null)
+		{
+			hashTable[position] = node;
+		}
+		else
+		{
+			node.next = start;
+			start.previous = node;
+			hashTable[position] = node;
+		}
+	}
+	
+	public void printHashTable()
+	{
+		System.out.println();
+		for(int i = 0; i < hashTable.length; i++)
+		{
+			System.out.print("At " +i);
+			Node current = hashTable[i];
+			
+			while(current != null)
+			{
+				System.out.print(current.data + "\t");
+				current = current.next;
+			}
+			System.out.println();
+		}
+	}
+	
+	public static void main(String[] args) 
+	{
+		HashTableWithHashvalue table = new HashTableWithHashvalue(20);
+		
+		table.insert("PARANOIDS");//re
+		table.insert("ARE");//re
+		table.insert("NOT");	//
+		table.insert("PARANOIDS");
+		table.insert("BECAUSE");
+		table.insert("THEY");
+		table.insert("ARE");
+		table.insert("PARANOIDS");
+		table.insert("BUT");
+		table.insert("BECAUSE");
+		table.insert("THEY");
+		table.insert("KEEP");
+		table.insert("PUTTING");
+		table.insert("THEMSELVES");
+		table.insert("DELIBREATELY");
+		table.insert("INTO");
+		table.insert("DELIBREATELY");
+		table.insert("INTO");
+		table.insert("PARANOIDS");
+		table.insert("AVOIDABLE");
+		table.insert("SITUATION");
+		
+		table.printHashTable();
+
+	}
+}
