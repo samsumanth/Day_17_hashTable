@@ -1,0 +1,105 @@
+class Node
+{
+	public String data;
+	public Node next;
+	public Node previous;
+	
+	public Node(String data)
+	{
+		this.data = data;
+		this.next = null;
+		this.previous = null;
+	}
+}
+
+public class HashTable 
+{
+	Node[] hashTable;
+	
+	int flag = 1, count = 1 , temp = 1;
+	
+	public HashTable(int position)
+	{
+		hashTable = new Node[position];
+	}
+	public int Hash(String value)
+	{
+		int hashPosition = value.hashCode();
+		
+		hashPosition = hashPosition % hashTable.length;
+		
+		if (hashPosition < 0)
+		{
+			hashPosition = hashPosition + hashTable.length;
+		}
+		
+		System.out.println("Hash value for" + value + "is :" + hashPosition);
+		return hashPosition;
+	}
+	
+	public void insert(String value)
+	{
+		int position = Hash(value);
+		
+		Node node = new Node(value);
+		Node start = hashTable[position];
+		
+		if (hashTable[position] == null)
+		{
+			hashTable[position] = node;
+		}
+		else 
+		{
+			node.next = start;
+			start.previous = node;
+			hashTable[position] = node;
+			
+			if (start.previous.data.equals("TO"))
+			{
+				flag ++;
+			}
+			else if (start.previous.data.equals("BE"))
+			{
+				count ++;
+			}
+		}
+	}
+	
+	public void printHashTable()
+	{
+		System.out.println();
+		
+		for(int i = 0; i < hashTable.length; i++)
+		{
+			System.out.print("At " + i + " :");
+			Node start = hashTable[i];
+			
+			while(start != null)
+			{
+				System.out.print(start.data + "\t");
+				start = start.next;
+			}
+			System.out.println();
+		}
+		
+		System.out.println("Frequency of TO is :" + flag);
+		System.out.println("Frequency of BE is :" + count);
+		System.out.println("Frequency of OR is :" + temp);
+		System.out.println("Ferquency of NOT is :" + temp);
+		
+	}
+	
+	public static void main(String args[]) 
+	{
+		HashTable table = new HashTable(7);
+		
+		table.insert("TO");
+		table.insert("BE");
+		table.insert("OR");
+		table.insert("NOT");
+		table.insert("TO");
+		table.insert("BE");
+		
+		table.printHashTable();
+	}
+}
